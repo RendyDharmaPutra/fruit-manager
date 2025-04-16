@@ -1,0 +1,38 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: furit_manager_frontend
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    environment:
+      - API_URL=http://localhost:${API_PORT}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+  api:
+    build: ./api
+    container_name: fruit_manager_api
+    ports:
+      - "${API_PORT}:3000"
+    environment:
+      - DB_PORT=3306
+      - DB_HOST=${DB_HOST}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+  database:
+    image: mysql:lts
+    container_name: fruit_manager_database
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - database:/var/lib/mysql
+
+volumes:
+  database:
