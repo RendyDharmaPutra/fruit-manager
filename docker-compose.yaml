@@ -6,6 +6,7 @@ services:
       - "${FRONTEND_PORT}:5173"
     environment:
       - API_URL=http://api:${API_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ./frontend:/app
       - /app/node_modules
@@ -20,6 +21,7 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ./api:/app
       - /app/node_modules
